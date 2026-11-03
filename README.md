@@ -18,7 +18,15 @@ Usage comes from the same Codex endpoint the CLI polls (`GET /backend-api/wham/u
 
 ## Install
 
-The packaged extension is `codex-usage-reset-0.1.2.vsix`. In Cursor or VS Code, run **Extensions: Install from VSIX…** and choose that file.
+Install **Codex Usage Reset** from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=ArmanTaherian.codex-usage-reset).
+
+In VS Code, open Quick Open (`Ctrl+P` or `Cmd+P`), paste this, and press Enter:
+
+```text
+ext install ArmanTaherian.codex-usage-reset
+```
+
+The same build is also in this repo as `codex-usage-reset-0.1.2.vsix`. Use **Extensions: Install from VSIX…** if the Marketplace is not available.
 
 ## Run
 
