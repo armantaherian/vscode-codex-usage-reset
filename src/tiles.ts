@@ -40,29 +40,24 @@ export function tileLevel(value: number, max: number): number {
 }
 
 export function formatUsageCharts(history: UsageHistory, theme: TileTheme = "dark"): string {
-  const svg = renderUsageSvg(history, theme);
+  const { svg, width, height } = renderUsageSvg(history, theme);
   const uri = `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`;
   const peak = peakCell(history);
   const alt = `Usage tiles for the last 7 days. Busiest is ${WEEKDAYS[peak.day]} ${hourLabel(peak.hour).trim()}.`;
   return [
     "**Last 7 days**",
     "",
-    `![${alt}](${uri})`,
+    `<img alt="${alt}" width="${width}" height="${height}" src="${uri}">`,
     "",
     "Each square is one hour on that weekday. Darker green means more usage.",
   ].join("\n");
 }
 
-export function renderUsageSvg(history: UsageHistory, theme: TileTheme): string {
+export function renderUsageSvg(history: UsageHistory, theme: TileTheme): { svg: string; width: number; height: number } {
   const palette = PALETTE[theme];
   const max = Math.max(...history.cells.flat(), 0);
-  const originX = PAD + LABEL_WIDTH;
-  const originY = PAD + 18;
-  const gridWidth = 24 * STEP - GAP;
-  const gridHeight = 7 * STEP - GAP;
-  const width = originX + gridWidth + PAD;
-  const legendY = originY + gridHeight + 16;
-  const height = legendY + CELL + PAD;
+  const metrics = chartMetrics();
+  const { originX, originY, width, legendY, height } = metrics;
   const parts: string[] = [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`,
   ];
@@ -92,7 +87,18 @@ export function renderUsageSvg(history: UsageHistory, theme: TileTheme): string 
   }
   parts.push(`<text x="${legendX + legendWidth + 8}" y="${legendY + 9}" font-family="sans-serif" font-size="10" fill="${palette.text}">More</text>`);
   parts.push("</svg>");
-  return parts.join("");
+  return { svg: parts.join(""), width, height };
+}
+
+function chartMetrics(): { originX: number; originY: number; width: number; legendY: number; height: number } {
+  const originX = PAD + LABEL_WIDTH;
+  const originY = PAD + 18;
+  const gridWidth = 24 * STEP - GAP;
+  const gridHeight = 7 * STEP - GAP;
+  const width = originX + gridWidth + PAD;
+  const legendY = originY + gridHeight + 16;
+  const height = legendY + CELL + PAD;
+  return { originX, originY, width, legendY, height };
 }
 
 function peakCell(history: UsageHistory): { day: number; hour: number } {

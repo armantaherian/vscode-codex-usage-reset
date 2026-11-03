@@ -2,7 +2,7 @@
   "name": "codex-usage-reset",
   "displayName": "Codex Usage Reset",
   "description": "Status bar for Codex 5-hour and weekly usage, time until reset, session context, and banked resets.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "ArmanTaherian",
   "author": {
     "name": "Arman Taherian",

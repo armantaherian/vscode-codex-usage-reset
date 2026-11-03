@@ -80,7 +80,7 @@ describe("usage tiles", () => {
     assert.equal(tileLevel(1_000, 4_000), 1);
     assert.equal(tileLevel(4_000, 4_000), 4);
 
-    const svg = renderUsageSvg(history, "dark");
+    const { svg, width, height } = renderUsageSvg(history, "dark");
     assert.match(svg, /Mon/);
     assert.match(svg, />12a</);
     assert.match(svg, /#39d353/);
@@ -88,8 +88,8 @@ describe("usage tiles", () => {
     assert.equal(svg.match(/<rect /g)?.length, 7 * 24 + 5);
 
     const chart = formatUsageCharts(history, "light");
-    assert.match(chart, /data:image\/svg\+xml;base64,/);
-    const encoded = chart.match(/base64,([^)]+)/)?.[1] ?? "";
+    assert.match(chart, new RegExp(`<img alt="[^"]*" width="${width}" height="${height}" src="data:image/svg\\+xml;base64,`));
+    const encoded = chart.match(/base64,([^"]+)/)?.[1] ?? "";
     assert.match(Buffer.from(encoded, "base64").toString("utf8"), /#216e39/);
     assert.match(chart, /Each square is one hour/);
   });

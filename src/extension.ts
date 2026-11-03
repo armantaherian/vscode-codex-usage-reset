@@ -134,6 +134,7 @@ function render(): void {
   statusItem.accessibilityInformation = { label: accessibleLabel(text), role: "button" };
   const markdown = new vscode.MarkdownString(tooltipMarkdown(input));
   markdown.isTrusted = false;
+  markdown.supportHtml = true;
   markdown.supportThemeIcons = false;
   statusItem.tooltip = markdown;
   const level = severity(input);
