@@ -1,0 +1,69 @@
+{
+  "name": "codex-usage-reset",
+  "displayName": "Codex Usage",
+  "description": "Status bar for Codex 5-hour and weekly usage, time until reset, session context, and banked resets.",
+  "version": "0.1.2",
+  "publisher": "local",
+  "private": true,
+  "author": {
+    "name": "Arman Taherian",
+    "email": "rman.taherian@gmail.com",
+    "url": "https://github.com/armantaherian"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/armantaherian/vscode-codex-usage-reset.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "codex",
+    "usage",
+    "openai"
+  ],
+  "extensionKind": [
+    "ui"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codexUsage.refresh",
+        "title": "Codex Usage: Refresh"
+      }
+    ],
+    "configuration": {
+      "title": "Codex Usage",
+      "properties": {
+        "codexUsage.refreshSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 15,
+          "description": "How often to reload Codex usage."
+        },
+        "codexUsage.codexHome": {
+          "type": "string",
+          "default": "",
+          "description": "Codex home directory. Empty uses CODEX_HOME, then ~/.codex."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p .",
+    "test": "tsc -p . && node --test out/*.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.8.0"
+  }
+}
