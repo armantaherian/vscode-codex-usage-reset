@@ -26,7 +26,7 @@ In VS Code, open Quick Open (`Ctrl+P` or `Cmd+P`), paste this, and press Enter:
 ext install ArmanTaherian.codex-usage-reset
 ```
 
-The same build is also in this repo as `codex-usage-reset-0.1.2.vsix`. Use **Extensions: Install from VSIX…** if the Marketplace is not available.
+The same build is also in this repo as `codex-usage-reset-0.1.3.vsix`. Use **Extensions: Install from VSIX…** if the Marketplace is not available.
 
 ## Run
 
