@@ -57,14 +57,26 @@ export async function loadAuth(home: string): Promise<CodexAuth | null> {
 }
 
 export async function ensureFreshToken(auth: CodexAuth, now = Date.now()): Promise<CodexAuth> {
-  const expiry = tokenExpiryMs(auth.accessToken);
-  if (expiry === null || expiry - now > 60_000) {
+  if (!expiresSoon(auth.accessToken, now)) {
     return auth;
   }
-  return refreshAndSave(auth);
+  return refreshAndSave(auth, now);
 }
 
-export async function refreshAndSave(auth: CodexAuth): Promise<CodexAuth> {
+export async function refreshAndSave(auth: CodexAuth, now = Date.now()): Promise<CodexAuth> {
+  const onDisk = await loadAuth(path.dirname(auth.authPath)).catch(() => null);
+  if (!onDisk || onDisk.accessToken === auth.accessToken) {
+    return refreshTokens(auth);
+  }
+  return expiresSoon(onDisk.accessToken, now) ? refreshTokens(onDisk) : onDisk;
+}
+
+function expiresSoon(token: string, now: number): boolean {
+  const expiry = tokenExpiryMs(token);
+  return expiry !== null && expiry - now <= 60_000;
+}
+
+async function refreshTokens(auth: CodexAuth): Promise<CodexAuth> {
   if (!auth.refreshToken) {
     throw new Error("Codex login expired. Run `codex login`.");
   }
