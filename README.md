@@ -16,6 +16,10 @@ Hover the item for the plan, exact reset time, tokens left in the context window
 
 Usage comes from the same Codex endpoint the CLI polls (`GET /backend-api/wham/usage`), using `~/.codex/auth.json`. If that login is expired, the extension refreshes it the same way Codex does and writes the new token back. Context comes from the newest local rollout under `~/.codex/sessions`. When the live request fails, the last session snapshot stays on the bar and the item shows a warning.
 
+## Install
+
+The packaged extension is `codex-usage-reset-0.1.2.vsix`. In Cursor or VS Code, run **Extensions: Install from VSIX…** and choose that file.
+
 ## Run
 
 ```sh
